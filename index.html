@@ -1,261 +1,345 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Creative - Start Bootstrap Theme</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap Icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
-        <!-- SimpleLightbox plugin CSS-->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#page-top">Start Bootstrap</a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    </ul>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laundry Express Antar Jemput Batu | Kilat 2 Jam Bersih & Wangi</title>
+    <meta name="description" content="Jasa laundry express antar jemput terbaik di Kota Batu. Layanan kilat 2 jam selesai, bersih, rapi, dan bergaransi. Bebas repot, tinggal pesan langsung dijemput!">
+    <meta name="keywords" content="laundry express batu, laundry antar jemput batu, laundry kilat kota batu, laundry terdekat batu">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-shirt text-lg"></i>
                 </div>
+                <span class="text-xl font-extrabold tracking-tight text-slate-900">Laundry<span class="text-brand-600">Express</span></span>
             </div>
-        </nav>
-        <!-- Masthead-->
-        <header class="masthead">
-            <div class="container px-4 px-lg-5 h-100">
-                <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
-                    <div class="col-lg-8 align-self-end">
-                        <h1 class="text-white font-weight-bold">Your Favorite Place for Free Bootstrap Themes</h1>
-                        <hr class="divider" />
-                    </div>
-                    <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 mb-5">Start Bootstrap can help you build better websites using the Bootstrap framework! Just download a theme and start customizing, no strings attached!</p>
-                        <a class="btn btn-primary btn-xl" href="#about">Find Out More</a>
-                    </div>
-                </div>
+            
+            <nav class="hidden md:flex items-center space-x-8 font-medium text-sm text-slate-600">
+                <a href="#layanan" class="hover:text-brand-600 transition-colors">Layanan</a>
+                <a href="#keunggulan" class="hover:text-brand-600 transition-colors">Keunggulan</a>
+                <a href="#harga" class="hover:text-brand-600 transition-colors">Tarif Harga</a>
+                <a href="#galeri" class="hover:text-brand-600 transition-colors">Galeri</a>
+            </nav>
+
+            <div>
+                <a href="https://wa.me/628xxxxxxxxxx?text=Halo%2C%20saya%20mau%20order%20laundry%20antar%20jemput" target="_blank" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md shadow-brand-500/20 transition-all transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-whatsapp mr-2 text-base"></i> Chat WhatsApp
+                </a>
+                <button id="menu-btn" class="md:hidden text-slate-700 focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
             </div>
-        </header>
-        <!-- About-->
-        <section class="page-section bg-primary" id="about">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8 text-center">
-                        <h2 class="text-white mt-0">We've got what you need!</h2>
-                        <hr class="divider divider-light" />
-                        <p class="text-white-75 mb-4">Start Bootstrap has everything you need to get your new website up and running in no time! Choose one of our open source, free to download, and easy to use themes! No strings attached!</p>
-                        <a class="btn btn-light btn-xl" href="#services">Get Started!</a>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 px-4 pt-2 pb-4 space-y-3">
+            <a href="#layanan" class="block text-slate-600 hover:text-brand-600 font-medium py-1">Layanan</a>
+            <a href="#keunggulan" class="block text-slate-600 hover:text-brand-600 font-medium py-1">Keunggulan</a>
+            <a href="#harga" class="block text-slate-600 hover:text-brand-600 font-medium py-1">Tarif Harga</a>
+            <a href="#galeri" class="block text-slate-600 hover:text-brand-600 font-medium py-1">Galeri</a>
+            <a href="https://wa.me/628xxxxxxxxxx" class="inline-flex items-center justify-center w-full px-5 py-2.5 rounded-xl bg-brand-600 text-white font-semibold text-sm shadow-md">
+                <i class="fa-brands fa-whatsapp mr-2 text-base"></i> Chat WhatsApp
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden bg-gradient-to-b from-brand-50/50 via-white to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left" data-aos="fade-right" data-aos-duration="800">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-star text-amber-400"></i>
+                        <span>Rating 5.0 Google (51+ Ulasan Asli)</span>
                     </div>
-                </div>
-            </div>
-        </section>
-        <!-- Services-->
-        <section class="page-section" id="services">
-            <div class="container px-4 px-lg-5">
-                <h2 class="text-center mt-0">At Your Service</h2>
-                <hr class="divider" />
-                <div class="row gx-4 gx-lg-5">
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <div class="mb-2"><i class="bi-gem fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Sturdy Themes</h3>
-                            <p class="text-muted mb-0">Our themes are updated regularly to keep them bug free!</p>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                        Laundry Kilat & Antar Jemput <span class="text-brand-600">Terbaik di Kota Batu</span>
+                    </h1>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0">
+                        Pakaian kotor menumpuk saat liburan atau kesibukan harian? Serahkan pada kami. Layanan *express* 2 jam selesai, bersih, harum, dan tinggal terima beres di tempat Anda.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="https://wa.me/628xxxxxxxxxx?text=Halo%2C%20mau%20jemput%20cucian%20dong" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-base shadow-xl shadow-brand-500/30 transition-all transform hover:-translate-y-1">
+                            <i class="fa-brands fa-whatsapp mr-2 text-xl"></i> Pesan Antar Jemput Sekarang
+                        </a>
+                        <a href="#harga" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-base transition-all">
+                            Cek Daftar Harga
+                        </a>
+                    </div>
+                    <!-- Quick Badges -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-100">
+                        <div>
+                            <p class="text-2xl font-black text-slate-900">2 Jam</p>
+                            <p class="text-xs text-slate-500 font-medium">Express Kilat</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-black text-slate-900">100%</p>
+                            <p class="text-xs text-slate-500 font-medium">Bebas Repot</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-black text-slate-900">5 Bintang</p>
+                            <p class="text-xs text-slate-500 font-medium">Kepuasan Klien</p>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <div class="mb-2"><i class="bi-laptop fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Up to Date</h3>
-                            <p class="text-muted mb-0">All dependencies are kept current to keep things fresh.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <div class="mb-2"><i class="bi-globe fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Ready to Publish</h3>
-                            <p class="text-muted mb-0">You can use this design as is, or you can make changes!</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <div class="mb-2"><i class="bi-heart fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Made with Love</h3>
-                            <p class="text-muted mb-0">Is it really open source if it's not made with love?</p>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </section>
-        <!-- Portfolio-->
-        <div id="portfolio">
-            <div class="container-fluid p-0">
-                <div class="row g-0">
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/1.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/1.jpg" alt="..." />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
+                
+                <!-- Hero Image Placeholder -->
+                <div class="lg:col-span-5 relative" data-aos="fade-left" data-aos-duration="800">
+                    <div class="relative w-full h-[400px] sm:h-[480px] rounded-3xl overflow-hidden shadow-2xl bg-slate-200 border-4 border-white">
+                        <!-- ASSET LOKAL: Ganti src dengan foto operasional/laundry milik sendiri -->
+                        <img src="assets/laundry-hero.jpg" alt="Laundry Express Antar Jemput Batu" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent flex items-end p-6">
+                            <div class="text-white">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-300">Profesional & Terpercaya</p>
+                                <p class="text-lg font-bold">Siap Layani Warga & Wisatawan Batu</p>
                             </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/2.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/2.jpg" alt="..." />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/3.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/3.jpg" alt="..." />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/4.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/4.jpg" alt="..." />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/5.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/5.jpg" alt="..." />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/6.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/6.jpg" alt="..." />
-                            <div class="portfolio-box-caption p-3">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
-                            </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Call to action-->
-        <section class="page-section bg-dark text-white">
-            <div class="container px-4 px-lg-5 text-center">
-                <h2 class="mb-4">Free Download at Start Bootstrap!</h2>
-                <a class="btn btn-light btn-xl" href="https://startbootstrap.com/theme/creative/">Download Now!</a>
+    </section>
+
+    <!-- Keunggulan Section -->
+    <section id="keunggulan" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Kenapa Memilih Layanan Kami?</h2>
+                <p class="text-slate-600 mt-2">Solusi praktis kebersihan pakaian Anda selama di Kota Batu.</p>
             </div>
-        </section>
-        <!-- Contact-->
-        <section class="page-section" id="contact">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8 col-xl-6 text-center">
-                        <h2 class="mt-0">Let's Get In Touch!</h2>
-                        <hr class="divider" />
-                        <p class="text-muted mb-5">Ready to start your next project with us? Send us a messages and we will get back to you as soon as possible!</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 rounded-xl bg-brand-500 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-brand-500/20 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-motorcycle"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Antar Jemput Praktis</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Tidak perlu macet-macetan di jalan. Cukup hubungi kami, kurir siap menjemput dan mengantar kembali pakaian bersih Anda.</p>
                 </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
-                    <div class="col-lg-6">
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- * * SB Forms Contact Form * *-->
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- This form is pre-integrated with SB Forms.-->
-                        <!-- To make this form functional, sign up at-->
-                        <!-- https://startbootstrap.com/solution/contact-forms-->
-                        <!-- to get an API token!-->
-                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-                            <!-- Name input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
-                                <label for="name">Full name</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
-                            </div>
-                            <!-- Email address input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
-                                <label for="email">Email address</label>
-                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-                            </div>
-                            <!-- Phone number input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
-                                <label for="phone">Phone number</label>
-                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
-                            </div>
-                            <!-- Message input-->
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
-                                <label for="message">Message</label>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
-                            </div>
-                            <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Form submission successful!</div>
-                                    To activate this form, sign up at
-                                    <br />
-                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                </div>
-                            </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                            <!-- Submit Button-->
-                            <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
-                        </form>
+                
+                <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 rounded-xl bg-brand-500 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-brand-500/20 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-bolt"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Express 2 Jam Selesai</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Butuh baju cepat untuk acara mendadak atau liburan? Layanan kilat kami siap beres dalam hitungan jam dengan hasil maksimal.</p>
                 </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-4 text-center mb-5 mb-lg-0">
-                        <i class="bi-phone fs-2 mb-3 text-muted"></i>
-                        <div>+1 (555) 123-4567</div>
+                
+                <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 rounded-xl bg-brand-500 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-brand-500/20 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-shield-heart"></i>
                     </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Higienis & Wangi Tahan Lama</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Dicuci terpisah per pelanggan, menggunakan deterjen berkualitas tinggi dan pilihan parfum eksklusif yang aman untuk kulit.</p>
                 </div>
             </div>
-        </section>
-        <!-- Footer-->
-        <footer class="bg-light py-5">
-            <div class="container px-4 px-lg-5"><div class="small text-center text-muted">Copyright &copy; 2023 - Company Name</div></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- SimpleLightbox plugin JS-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-    </body>
+        </div>
+    </section>
+
+    <!-- Layanan & Harga Section -->
+    <section id="harga" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Layanan & Tarif Harga</h2>
+                <p class="text-slate-600 mt-2">Transparan, ramah di kantong, dengan kualitas hasil cucian premium.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                <!-- Paket Reguler -->
+                <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col justify-between" data-aos="fade-up" data-aos-delay="100">
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold mb-4">HEMAT & SANTAI</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Cuci Reguler</h3>
+                        <p class="text-slate-500 text-sm mb-6">Estimasi selesai 2 - 3 hari. Cocok untuk kebutuhan cuci rutin sehari-hari.</p>
+                        <div class="text-3xl font-black text-slate-900 mb-6">Rp 7.000 <span class="text-sm font-medium text-slate-500">/ kg</span></div>
+                        <ul class="space-y-3 text-sm text-slate-600 mb-8">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Cuci bersih & higienis</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Setrika rapi siap pakai</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Gratis packing plastik</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/628xxxxxxxxxx?text=Halo%2C%20saya%20mau%20pesan%20layanan%20Reguler" target="_blank" class="w-full py-3 rounded-xl border border-brand-600 text-brand-600 hover:bg-brand-50 font-bold text-center text-sm transition-colors">
+                        Pilih Reguler
+                    </a>
+                </div>
+
+                <!-- Paket Express 2 Jam (Featured) -->
+                <div class="bg-brand-900 text-white rounded-3xl p-8 shadow-2xl relative flex flex-col justify-between transform lg:-translate-y-2 border-2 border-brand-500" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-brand-500 text-white text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full shadow">
+                        Paling Populer & Cepat
+                    </div>
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-brand-800 text-brand-200 text-xs font-bold mb-4">KILAT DARURAT</div>
+                        <h3 class="text-2xl font-bold mb-2">Express 2 Jam</h3>
+                        <p class="text-brand-200 text-sm mb-6">Pengerjaan super cepat khusus untuk Anda yang sedang buru-buru.</p>
+                        <div class="text-3xl font-black mb-6">Rp 15.000 <span class="text-sm font-medium text-brand-200">/ kg</span></div>
+                        <ul class="space-y-3 text-sm text-brand-100 mb-8">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-400 mr-3"></i> Selesai dalam 2 jam</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-400 mr-3"></i> Prioritas mesin khusus</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-400 mr-3"></i> Wangi eksklusif tahan lama</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/628xxxxxxxxxx?text=Halo%2C%20saya%20mau%20booking%20Express%202%20Jam" target="_blank" class="w-full py-3.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-center text-sm shadow-lg shadow-brand-500/40 transition-all">
+                        Pesan Express Sekarang
+                    </a>
+                </div>
+
+                <!-- Paket Satuan / Bed Cover -->
+                <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col justify-between" data-aos="fade-up" data-aos-delay="300">
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold mb-4">KHUSUS ITEM BESAR</div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Satuan & Bed Cover</h3>
+                        <p class="text-slate-500 text-sm mb-6">Perawatan khusus untuk selimut, bed cover, jaket tebal, atau boneka.</p>
+                        <div class="text-3xl font-black text-slate-900 mb-6">Mulai Rp 15.000 <span class="text-sm font-medium text-slate-500">/ pcs</span></div>
+                        <ul class="space-y-3 text-sm text-slate-600 mb-8">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Penanganan noda khusus</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Pengeringan menyeluruh</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Aman untuk bahan sensitif</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/628xxxxxxxxxx?text=Halo%2C%20saya%20mau%20konsultasi%20cuci%20satuan" target="_blank" class="w-full py-3 rounded-xl border border-brand-600 text-brand-600 hover:bg-brand-50 font-bold text-center text-sm transition-colors">
+                        Tanya Detail Satuan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeri Section -->
+    <section id="galeri" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Galeri & Suasana Laundry Kami</h2>
+                <p class="text-slate-600 mt-2">Mesin modern terawat dan higienis untuk menjaga kualitas pakaian kesayangan Anda.</p>
+            </div>
+
+            <!-- ASSET LOKAL: Ganti file gambar berikut dengan foto asli aset Anda -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group relative rounded-2xl overflow-hidden shadow-md h-64 bg-slate-200" data-aos="fade-up" data-aos-delay="100">
+                    <img src="assets/laundry-1.jpg" alt="Mesin Cuci Laundry Batu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                        <p class="text-white font-semibold text-sm">Deretan Mesin Modern Berkualitas</p>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden shadow-md h-64 bg-slate-200" data-aos="fade-up" data-aos-delay="200">
+                    <img src="assets/laundry-2.jpg" alt="Proses Setrika Rapi Laundry" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                        <p class="text-white font-semibold text-sm">Hasil Setrika Rapi & Wangi Tahan Lama</p>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden shadow-md h-64 bg-slate-200" data-aos="fade-up" data-aos-delay="300">
+                    <img src="assets/laundry-3.jpg" alt="Kurir Antar Jemput Laundry Batu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                        <p class="text-white font-semibold text-sm">Layanan Antar Jemput Siap Meluncur</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner Section -->
+    <section class="py-16 bg-gradient-to-r from-brand-600 to-brand-700 text-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6" data-aos="zoom-in">
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Pakaian Kotor Bikin Pusing? Biar Kami yang Urus!</h2>
+            <p class="text-brand-100 max-w-xl mx-auto text-base">
+                Nikmati kemudahan layanan antar-jemput laundry di Kota Batu. Hubungi kami sekarang dan rasakan bedanya.
+            </p>
+            <div class="pt-2">
+                <a href="https://wa.me/628xxxxxxxxxx?text=Halo%2C%20mau%20order%20laundry%20dong" target="_blank" class="inline-flex items-center px-8 py-4 rounded-xl bg-white text-brand-700 hover:bg-brand-50 font-extrabold text-base shadow-2xl transition-all transform hover:-translate-y-1">
+                    <i class="fa-brands fa-whatsapp mr-2 text-2xl text-emerald-600"></i> Hubungi WhatsApp Kami
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-shirt text-sm"></i>
+                        </div>
+                        <span class="text-lg font-bold text-white">Laundry<span class="text-brand-500">Express</span></span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Layanan laundry kilat dan antar jemput terpercaya di Kota Batu. Mengutamakan kualitas kebersihan, kecepatan, dan kepuasan pelanggan.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Jam Operasional</h4>
+                    <p class="text-sm text-slate-400 mb-2">Senin - Minggu: 08.00 - 20.00 WIB</p>
+                    <p class="text-sm text-slate-400">Siap melayani area Kota Batu dan sekitarnya.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Kontak Cepat</h4>
+                    <p class="text-sm text-slate-400 mb-2"><i class="fa-solid fa-location-dot mr-2 text-brand-500"></i> Kota Batu, Jawa Timur</p>
+                    <p class="text-sm text-slate-400"><i class="fa-brands fa-whatsapp mr-2 text-brand-500"></i> +62 8xx-xxxx-xxxx</p>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-xs text-slate-500">
+                &copy; 2026 Laundry Express Batu. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            duration: 800,
+            easing: 'ease-out-cubic'
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
 </html>
+
