@@ -431,7 +431,7 @@
                         <input type="text" id="wa-nama" required class="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-slate-800" placeholder="Masukkan nama lengkap Anda">
                     </div>
 
-                    <!-- FITUR BARU: Opsi Metode Pengiriman/Penjemputan -->
+                    <!-- Metode Layanan (Radio: Hanya Pilih 1) -->
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-3">Metode Layanan</label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -462,9 +462,12 @@
                         <input type="datetime-local" id="wa-waktu" required class="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-slate-800">
                     </div>
 
-                    <!-- FITUR BARU: Opsi Pilihan Layanan (Radio Group Estetik) -->
+                    <!-- Opsi Pilihan Layanan (Checkbox: Boleh Lebih Dari 1, Minimal 1) -->
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-3">Pilih Layanan & Estimasi Selesai</label>
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="block text-sm font-semibold text-slate-700">Pilih Layanan & Estimasi Selesai</label>
+                            <span class="text-xs text-brand-600 font-medium">*Bisa pilih lebih dari 1</span>
+                        </div>
                         <div class="space-y-4">
                             
                             <!-- Category: Cuci Setrika -->
@@ -474,15 +477,15 @@
                                 </span>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Setrika - 2 Jam" checked class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Setrika - 2 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">2 Jam Selesai</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Setrika - 6 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Setrika - 6 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">6 Jam Selesai</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Setrika - 12 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Setrika - 12 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">12 Jam Selesai</span>
                                     </label>
                                 </div>
@@ -495,15 +498,15 @@
                                 </span>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Kering - 2 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Kering - 2 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">2 Jam Selesai</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Kering - 6 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Kering - 6 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">6 Jam Selesai</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Kering - 12 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Kering - 12 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">12 Jam Selesai</span>
                                     </label>
                                 </div>
@@ -516,15 +519,15 @@
                                 </span>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Setrika Saja - 2 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Setrika Saja - 2 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">2 Jam Selesai</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Setrika Saja - 6 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Setrika Saja - 6 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">6 Jam Selesai</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Setrika Saja - 12 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Setrika Saja - 12 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2.5 text-xs font-bold text-slate-800">12 Jam Selesai</span>
                                     </label>
                                 </div>
@@ -537,19 +540,19 @@
                                 </span>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Sepatu - 3 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Sepatu - 3 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2 text-xs font-bold text-slate-800">3 Jam</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Sepatu - 6 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Sepatu - 6 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2 text-xs font-bold text-slate-800">6 Jam</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Sepatu - 12 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Sepatu - 12 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2 text-xs font-bold text-slate-800">12 Jam</span>
                                     </label>
                                     <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
-                                        <input type="radio" name="wa-layanan" value="Cuci Sepatu - 24 Jam" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                        <input type="checkbox" name="wa-layanan" value="Cuci Sepatu - 24 Jam" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
                                         <span class="ml-2 text-xs font-bold text-slate-800">24 Jam</span>
                                     </label>
                                 </div>
@@ -640,21 +643,35 @@
             const waktu = document.getElementById('wa-waktu').value;
             const catatan = document.getElementById('wa-catatan').value.trim();
             
-            // Mengambil nilai radio tercentang untuk metode & layanan
+            // Mengambil nilai radio tercentang untuk metode
             const metodeSelected = document.querySelector('input[name="wa-metode"]:checked');
-            const layananSelected = document.querySelector('input[name="wa-layanan"]:checked');
-
             const metode = metodeSelected ? metodeSelected.value : 'Antar Jemput';
-            const layanan = layananSelected ? layananSelected.value : 'Cuci Setrika - 2 Jam';
 
+            // Mengambil semua checkbox layanan yang tercentang (bisa lebih dari 1)
+            const layananChecked = document.querySelectorAll('input[name="wa-layanan"]:checked');
+            
+            // Validasi input wajib
             if (!nama || !alamat || !waktu) {
                 alert('Mohon lengkapi Nama, Alamat, dan Waktu Penjemputan terlebih dahulu.');
                 return;
             }
 
+            // Validasi: Wajib memilih minimal 1 layanan
+            if (layananChecked.length === 0) {
+                alert('Mohon pilih minimal 1 jenis layanan terlebih dahulu.');
+                return;
+            }
+
+            // Menggabungkan pilihan layanan yang dicentang menjadi daftar berurutan
+            let daftarLayanan = [];
+            layananChecked.forEach((cb) => {
+                daftarLayanan.push(cb.value);
+            });
+            const layananString = daftarLayanan.join(', ');
+
             const waktuFormat = waktu.replace('T', ' Pukul ');
 
-            const pesan = `Halo, saya ingin memesan layanan laundry.%0A%0A*Detail Pemesanan:*%0A- *Nama:* ${nama}%0A- *Metode Layanan:* ${metode}%0A- *Pilihan Layanan:* ${layanan}%0A- *Alamat:* ${alamat}%0A- *Waktu Penjemputan:* ${waktuFormat}%0A- *Catatan:* ${catatan ? catatan : '-'}`;
+            const pesan = `Halo, saya ingin memesan layanan laundry.%0A%0A*Detail Pemesanan:*%0A- *Nama:* ${nama}%0A- *Metode Layanan:* ${metode}%0A- *Pilihan Layanan:* ${layananString}%0A- *Alamat:* ${alamat}%0A- *Waktu Penjemputan:* ${waktuFormat}%0A- *Catatan:* ${catatan ? catatan : '-'}`;
             const noWa = '6285890425429';
             
             const urlWa = `https://wa.me/${noWa}?text=${pesan}`;
