@@ -558,6 +558,46 @@
                                 </div>
                             </div>
 
+                            <!-- Category: Lainnya -->
+                            <div class="space-y-2 pt-1">
+                                <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-layer-group"></i> Lainnya
+                                </span>
+                                <label class="relative flex items-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
+                                    <input type="checkbox" id="cb-lainnya" name="wa-layanan" value="Lainnya" onchange="toggleLayananLainnya()" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
+                                    <span class="ml-2.5 text-xs font-bold text-slate-800">Lainnya (Bedcover, Tas, Boneka, Karpet, Jaket, dll.)</span>
+                                </label>
+                                <div id="box-lainnya" class="hidden pt-1">
+                                    <input type="text" id="wa-lainnya-detail" class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm text-slate-800" placeholder="Sebutkan item lainnya (misal: 1 Bedcover, 2 Tas, Boneka)...">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Estimasi Berat (Radio: Wajib Pilih 1) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="block text-sm font-semibold text-slate-700">Estimasi Berat Cucian <span class="text-red-500">*</span></label>
+                            <span class="text-xs text-slate-500 font-medium">Wajib dipilih</span>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                            <label class="relative flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
+                                <input type="radio" name="wa-berat" value="1-5kg" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                <span class="ml-2 text-xs font-bold text-slate-800">1-5kg</span>
+                            </label>
+                            <label class="relative flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
+                                <input type="radio" name="wa-berat" value="6-10kg" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                <span class="ml-2 text-xs font-bold text-slate-800">6-10kg</span>
+                            </label>
+                            <label class="relative flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
+                                <input type="radio" name="wa-berat" value="11-15kg" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                <span class="ml-2 text-xs font-bold text-slate-800">11-15kg</span>
+                            </label>
+                            <label class="relative flex items-center justify-center p-3.5 rounded-xl border border-slate-200 bg-white cursor-pointer hover:border-brand-500 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 has-[:checked]:ring-2 has-[:checked]:ring-brand-500/20">
+                                <input type="radio" name="wa-berat" value="lebih dari 15kg" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                <span class="ml-2 text-xs font-bold text-slate-800">lebih dari 15kg</span>
+                            </label>
                         </div>
                     </div>
 
@@ -636,6 +676,17 @@
             mobileMenu.classList.toggle('hidden');
         });
 
+        // Toggle input detail saat opsi "Lainnya" dicentang
+        function toggleLayananLainnya() {
+            const cbLainnya = document.getElementById('cb-lainnya');
+            const boxLainnya = document.getElementById('box-lainnya');
+            if (cbLainnya.checked) {
+                boxLainnya.classList.remove('hidden');
+            } else {
+                boxLainnya.classList.add('hidden');
+            }
+        }
+
         // Fungsi Kirim Order ke WhatsApp
         function sendToWhatsApp() {
             const nama = document.getElementById('wa-nama').value.trim();
@@ -649,6 +700,9 @@
 
             // Mengambil semua checkbox layanan yang tercentang (bisa lebih dari 1)
             const layananChecked = document.querySelectorAll('input[name="wa-layanan"]:checked');
+
+            // Mengambil nilai radio estimasi berat (wajib dipilih)
+            const beratSelected = document.querySelector('input[name="wa-berat"]:checked');
             
             // Validasi input wajib
             if (!nama || !alamat || !waktu) {
@@ -662,16 +716,28 @@
                 return;
             }
 
+            // Validasi: Wajib memilih estimasi berat
+            if (!beratSelected) {
+                alert('Mohon pilih estimasi berat cucian terlebih dahulu.');
+                return;
+            }
+
             // Menggabungkan pilihan layanan yang dicentang menjadi daftar berurutan
             let daftarLayanan = [];
             layananChecked.forEach((cb) => {
-                daftarLayanan.push(cb.value);
+                if (cb.value === 'Lainnya') {
+                    const detailLainnya = document.getElementById('wa-lainnya-detail').value.trim();
+                    daftarLayanan.push(detailLainnya ? `Lainnya (${detailLainnya})` : 'Lainnya');
+                } else {
+                    daftarLayanan.push(cb.value);
+                }
             });
             const layananString = daftarLayanan.join(', ');
+            const beratString = beratSelected.value;
 
             const waktuFormat = waktu.replace('T', ' Pukul ');
 
-            const pesan = `Halo, saya ingin memesan layanan laundry.%0A%0A*Detail Pemesanan:*%0A- *Nama:* ${nama}%0A- *Metode Layanan:* ${metode}%0A- *Pilihan Layanan:* ${layananString}%0A- *Alamat:* ${alamat}%0A- *Waktu Penjemputan:* ${waktuFormat}%0A- *Catatan:* ${catatan ? catatan : '-'}`;
+            const pesan = `Halo, saya ingin memesan layanan laundry.%0A%0A*Detail Pemesanan:*%0A- *Nama:* ${encodeURIComponent(nama)}%0A- *Metode Layanan:* ${encodeURIComponent(metode)}%0A- *Pilihan Layanan:* ${encodeURIComponent(layananString)}%0A- *Estimasi Berat:* ${encodeURIComponent(beratString)}%0A- *Alamat:* ${encodeURIComponent(alamat)}%0A- *Waktu Penjemputan:* ${encodeURIComponent(waktuFormat)}%0A- *Catatan:* ${encodeURIComponent(catatan ? catatan : '-')}`;
             const noWa = '6285890425429';
             
             const urlWa = `https://wa.me/${noWa}?text=${pesan}`;
