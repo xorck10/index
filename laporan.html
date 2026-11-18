@@ -937,6 +937,11 @@
       if (activeUrl) {
         document.getElementById("sheetUrlInput").value = activeUrl;
         fetchSheetData(activeUrl);
+        // Otomatis sinkron ulang setiap 2 menit (120.000 milidetik)
+        setInterval(() => {
+          const currentUrl = localStorage.getItem(STORAGE_KEY) || DEFAULT_GOOGLE_SHEET_CSV_URL;
+          if (currentUrl) fetchSheetData(currentUrl);
+        }, 120000);
       }
     });
   </script>
