@@ -264,6 +264,7 @@
 
     .filter-group {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 10px;
     }
@@ -284,6 +285,36 @@
       color: var(--text-main);
       cursor: pointer;
       outline: none;
+    }
+
+    .custom-date-box {
+      display: none;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .custom-date-box.show {
+      display: inline-flex;
+    }
+
+    .date-input {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text-main);
+      background: var(--surface);
+      outline: none;
+    }
+
+    .date-input:focus {
+      border-color: var(--primary);
     }
 
     .chart-wrapper {
@@ -387,11 +418,19 @@
           <button class="tab-btn" data-metric="berat" onclick="setMetric('berat')">Berat Cucian (Kg)</button>
           <button class="tab-btn" data-metric="transaksi" onclick="setMetric('transaksi')">Jumlah Nota</button>
         </div>
+
         <div class="filter-group">
           <label for="monthFilter" class="filter-label">Periode:</label>
-          <select id="monthFilter" class="month-select" onchange="updateDashboard()">
+          <select id="monthFilter" class="month-select" onchange="handlePeriodChange()">
             <option value="all">Semua Bulan</option>
           </select>
+
+          <div id="customDateBox" class="custom-date-box">
+            <span class="filter-label">Dari:</span>
+            <input type="date" id="startDate" class="date-input" onchange="updateDashboard()" />
+            <span class="filter-label">Sampai:</span>
+            <input type="date" id="endDate" class="date-input" onchange="updateDashboard()" />
+          </div>
         </div>
       </div>
 
@@ -407,10 +446,6 @@
   </div>
 
   <script>
-    // =========================================================================
-    // TEMPEL LINK CSV GOOGLE SHEETS ANDA DI ANTARA TANDA KUTIP DI BAWAH INI:
-    // Contoh: const DEFAULT_GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRksKVR-AdeAZFPgOCSFBDwYNSuQirR0x8UwhZAvGVKuQpiHJxopVEahob03V1s1Cs2YXcyF2FefoXW/pub?gid=660893256&single=true&output=csv";
-    // =========================================================================
     const DEFAULT_GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRksKVR-AdeAZFPgOCSFBDwYNSuQirR0x8UwhZAvGVKuQpiHJxopVEahob03V1s1Cs2YXcyF2FefoXW/pub?gid=660893256&single=true&output=csv";
 
     const STORAGE_KEY = "laundry_google_sheet_csv_url_v1";
@@ -467,9 +502,40 @@
         select.appendChild(opt);
       });
 
+      const customOpt = document.createElement("option");
+      customOpt.value = "custom";
+      customOpt.textContent = "Custom Rentang Tanggal...";
+      select.appendChild(customOpt);
+
+      // Set default batas min/max pada date picker
+      if (allRecords.length > 0) {
+        const minDate = allRecords[0].date;
+        const maxDate = allRecords[allRecords.length - 1].date;
+        const startInput = document.getElementById("startDate");
+        const endInput = document.getElementById("endDate");
+        startInput.min = minDate;
+        startInput.max = maxDate;
+        endInput.min = minDate;
+        endInput.max = maxDate;
+        if (!startInput.value) startInput.value = minDate;
+        if (!endInput.value) endInput.value = maxDate;
+      }
+
       if ([...select.options].some(o => o.value === prevVal)) {
         select.value = prevVal;
       }
+      handlePeriodChange(false);
+    }
+
+    function handlePeriodChange(shouldUpdate = true) {
+      const selectedPeriod = document.getElementById("monthFilter").value;
+      const customBox = document.getElementById("customDateBox");
+      if (selectedPeriod === "custom") {
+        customBox.classList.add("show");
+      } else {
+        customBox.classList.remove("show");
+      }
+      if (shouldUpdate) updateDashboard();
     }
 
     function setMetric(metric) {
@@ -481,12 +547,34 @@
     }
 
     function updateDashboard() {
-      const selectedMonth = document.getElementById("monthFilter").value;
-      const filtered = selectedMonth === "all"
-        ? allRecords
-        : allRecords.filter(r => r.month === selectedMonth);
+      const selectedPeriod = document.getElementById("monthFilter").value;
+      let filtered = allRecords;
 
-      if (filtered.length === 0) return;
+      if (selectedPeriod === "custom") {
+        const startVal = document.getElementById("startDate").value;
+        const endVal = document.getElementById("endDate").value;
+        filtered = allRecords.filter(r => {
+          if (startVal && r.date < startVal) return false;
+          if (endVal && r.date > endVal) return false;
+          return true;
+        });
+      } else if (selectedPeriod !== "all") {
+        filtered = allRecords.filter(r => r.month === selectedPeriod);
+      }
+
+      if (filtered.length === 0) {
+        document.getElementById("periodRange").textContent = "Tidak ada data pada rentang ini";
+        document.getElementById("kpi1Value").textContent = "Rp 0";
+        document.getElementById("kpi2Value").textContent = "Rp 0";
+        document.getElementById("kpi3Value").textContent = "Rp 0";
+        document.getElementById("kpi4Value").textContent = "Rp 0";
+        document.getElementById("kpi1Sub").textContent = "0 hari aktif";
+        document.getElementById("kpi2Sub").textContent = "-";
+        document.getElementById("kpi3Sub").textContent = "-";
+        document.getElementById("kpi4Sub").textContent = "-";
+        renderChart([]);
+        return;
+      }
 
       document.getElementById("periodRange").textContent =
         `${formatDateShort(filtered[0].date)} – ${formatDateFull(filtered[filtered.length - 1].date)}`;
@@ -657,8 +745,8 @@
               bodyFont: { size: 12 },
               callbacks: {
                 title: (items) => {
-                  const idx = items[0].dataIndex;
-                  return formatDateFull(data[idx].date);
+                  if (!items.length || !data[items[0].dataIndex]) return "";
+                  return formatDateFull(data[items[0].dataIndex].date);
                 },
                 label: (context) => {
                   if (currentMetric === "pendapatan") {
@@ -670,6 +758,7 @@
                   }
                 },
                 afterBody: (items) => {
+                  if (!items.length || !data[items[0].dataIndex]) return [];
                   const r = data[items[0].dataIndex];
                   return [
                     "────────────────────",
