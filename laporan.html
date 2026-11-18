@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laporan Kinerja Harian Laundry</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --emerald: #059669;
+      --emerald-soft: #ecfdf5;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --radius: 14px;
+      --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      background: var(--surface);
+      padding: 20px 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .header-title h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .header-subtitle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+
+    .status-badge.offline {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-main);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      background: #f1f5f9;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .sync-panel {
+      display: none;
+      background: var(--surface);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .sync-panel.open {
+      display: block;
+    }
+
+    .sync-panel h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .sync-panel p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .sync-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .sync-input {
+      flex: 1;
+      min-width: 260px;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .sync-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .kpi-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .metric-tabs {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 10px;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-label {
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .month-select {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 390px;
+      width: 100%;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 12px;
+      }
+      .chart-wrapper {
+        height: 310px;
+      }
+      .kpi-value {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-title">
+        <h1>Laporan Kinerja Harian Laundry</h1>
+        <div class="header-subtitle">
+          <span id="statusBadge" class="status-badge offline">
+            <span class="status-dot"></span>
+            <span id="statusText">Data Bawaan (129 Hari)</span>
+          </span>
+          <span id="periodRange">26 Jun – 17 Nov 2026</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="index.html" class="btn" title="Kembali ke halaman utama">← Beranda</a>
+        <button id="refreshBtn" class="btn" onclick="syncNow()" style="display:none;">↻ Muat Ulang</button>
+        <button class="btn btn-primary" onclick="toggleSyncPanel()">⚙ Hubungkan Google Sheets</button>
+      </div>
+    </div>
+
+    <!-- Panel Sinkronisasi Google Sheets -->
+    <div id="syncPanel" class="sync-panel">
+      <h3>Sinkronisasi Otomatis dari Google Sheets</h3>
+      <p>
+        Buka Google Sheets Anda &rarr; <strong>File</strong> &rarr; <strong>Bagikan</strong> &rarr; <strong>Publikasikan ke web</strong> &rarr; pilih tab <strong>Center</strong> (atau <strong>Transaksi</strong>) &rarr; ubah format ke <strong>CSV (.csv)</strong> &rarr; salin tautannya ke bawah ini.
+      </p>
+      <div class="sync-form">
+        <input
+          type="url"
+          id="sheetUrlInput"
+          class="sync-input"
+          placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&single=true&output=csv"
+        />
+        <button class="btn btn-primary" onclick="saveSheetUrl()">Simpan &amp; Sinkronkan</button>
+        <button class="btn" onclick="resetToDefault()">Gunakan Data Awal</button>
+      </div>
+      <p id="syncMessage" style="margin-top:8px; margin-bottom:0; font-weight:600;"></p>
+    </div>
+
+    <!-- Kartu Ringkasan KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label" id="kpi1Label">Total Pendapatan Kotor</div>
+        <div class="kpi-value" id="kpi1Value">Rp 0</div>
+        <div class="kpi-sub" id="kpi1Sub">-</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label" id="kpi2Label">Total Pendapatan Bersih</div>
+        <div class="kpi-value" id="kpi2Value" style="color: var(--emerald);">Rp 0</div>
+        <div class="kpi-sub" id="kpi2Sub">-</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label" id="kpi3Label">Rata-rata Kotor / Hari</div>
+        <div class="kpi-value" id="kpi3Value">Rp 0</div>
+        <div class="kpi-sub" id="kpi3Sub">-</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label" id="kpi4Label">Hari Tertinggi</div>
+        <div class="kpi-value" id="kpi4Value">Rp 0</div>
+        <div class="kpi-sub" id="kpi4Sub">-</div>
+      </div>
+    </div>
+
+    <!-- Grafik Utama -->
+    <div class="chart-card">
+      <div class="controls-bar">
+        <div class="metric-tabs" role="tablist">
+          <button class="tab-btn active" data-metric="pendapatan" onclick="setMetric('pendapatan')">Pendapatan (Rp)</button>
+          <button class="tab-btn" data-metric="berat" onclick="setMetric('berat')">Berat Cucian (Kg)</button>
+          <button class="tab-btn" data-metric="transaksi" onclick="setMetric('transaksi')">Jumlah Nota</button>
+        </div>
+        <div class="filter-group">
+          <label for="monthFilter" class="filter-label">Periode:</label>
+          <select id="monthFilter" class="month-select" onchange="updateDashboard()">
+            <option value="all">Semua Bulan</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chart-wrapper">
+        <canvas id="dailyChart"></canvas>
+      </div>
+
+      <div class="footer-note">
+        <span>Arahkan kursor (atau sentuh batang grafik) untuk melihat rincian kotor, operasional, gaji, bersih, dan berat per tanggal.</span>
+        <span id="lastUpdatedNote">Sumber: Rekap Harian Laundry</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // TEMPEL LINK CSV GOOGLE SHEETS ANDA DI ANTARA TANDA KUTIP DI BAWAH INI:
+    // Contoh: const DEFAULT_GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRksKVR-AdeAZFPgOCSFBDwYNSuQirR0x8UwhZAvGVKuQpiHJxopVEahob03V1s1Cs2YXcyF2FefoXW/pub?gid=660893256&single=true&output=csv";
+    // =========================================================================
+    const DEFAULT_GOOGLE_SHEET_CSV_URL = "";
+
+    const STORAGE_KEY = "laundry_google_sheet_csv_url_v1";
+
+    // Data awal bawaan dari Aplikasi Nota Laundry.xlsx (129 hari aktif)
+    const INITIAL_DATA = [{"date":"2026-06-26","month":"2026-06","kotor":87500,"operasional":0,"gaji":0,"bersih":87500,"berat":0.0,"transaksi":1},{"date":"2026-06-27","month":"2026-06","kotor":790500,"operasional":0,"gaji":0,"bersih":790500,"berat":0.0,"transaksi":1},{"date":"2026-06-30","month":"2026-06","kotor":1071000,"operasional":177900,"gaji":237200,"bersih":655900,"berat":59.3,"transaksi":5},{"date":"2026-07-01","month":"2026-07","kotor":1268500,"operasional":194400,"gaji":259200,"bersih":814900,"berat":64.8,"transaksi":7},{"date":"2026-07-02","month":"2026-07","kotor":369000,"operasional":73800,"gaji":98400,"bersih":196800,"berat":24.6,"transaksi":3},{"date":"2026-07-03","month":"2026-07","kotor":390500,"operasional":49200,"gaji":65600,"bersih":275700,"berat":16.4,"transaksi":4},{"date":"2026-07-04","month":"2026-07","kotor":158000,"operasional":18600,"gaji":24800,"bersih":114600,"berat":6.2,"transaksi":2},{"date":"2026-07-05","month":"2026-07","kotor":583600,"operasional":94500,"gaji":113000,"bersih":376100,"berat":38.0,"transaksi":5},{"date":"2026-07-06","month":"2026-07","kotor":542000,"operasional":89400,"gaji":117800,"bersih":334800,"berat":30.5,"transaksi":5},{"date":"2026-07-07","month":"2026-07","kotor":861000,"operasional":143100,"gaji":190800,"bersih":527100,"berat":47.7,"transaksi":7},{"date":"2026-07-08","month":"2026-07","kotor":550000,"operasional":74400,"gaji":99200,"bersih":376400,"berat":24.8,"transaksi":5},{"date":"2026-07-09","month":"2026-07","kotor":718000,"operasional":122400,"gaji":163200,"bersih":432400,"berat":40.8,"transaksi":6},{"date":"2026-07-10","month":"2026-07","kotor":667000,"operasional":106200,"gaji":141600,"bersih":419200,"berat":35.4,"transaksi":4},{"date":"2026-07-11","month":"2026-07","kotor":968500,"operasional":135800,"gaji":174800,"bersih":657900,"berat":48.4,"transaksi":7},{"date":"2026-07-12","month":"2026-07","kotor":582500,"operasional":85200,"gaji":108200,"bersih":389100,"berat":31.1,"transaksi":5},{"date":"2026-07-13","month":"2026-07","kotor":292000,"operasional":56400,"gaji":75200,"bersih":160400,"berat":18.8,"transaksi":2},{"date":"2026-07-14","month":"2026-07","kotor":311500,"operasional":50700,"gaji":67600,"bersih":193200,"berat":16.9,"transaksi":3},{"date":"2026-07-15","month":"2026-07","kotor":592000,"operasional":93400,"gaji":119800,"bersih":378800,"berat":33.5,"transaksi":6},{"date":"2026-07-16","month":"2026-07","kotor":560000,"operasional":78800,"gaji":101600,"bersih":379600,"berat":28.0,"transaksi":6},{"date":"2026-07-17","month":"2026-07","kotor":225000,"operasional":45000,"gaji":60000,"bersih":120000,"berat":15.0,"transaksi":2},{"date":"2026-07-18","month":"2026-07","kotor":505500,"operasional":88800,"gaji":118400,"bersih":298300,"berat":29.6,"transaksi":4},{"date":"2026-07-19","month":"2026-07","kotor":443500,"operasional":80400,"gaji":107200,"bersih":255900,"berat":26.8,"transaksi":5},{"date":"2026-07-20","month":"2026-07","kotor":442000,"operasional":34000,"gaji":34000,"bersih":374000,"berat":17.0,"transaksi":2},{"date":"2026-07-21","month":"2026-07","kotor":580000,"operasional":79800,"gaji":106400,"bersih":393800,"berat":26.6,"transaksi":4},{"date":"2026-07-22","month":"2026-07","kotor":365000,"operasional":33000,"gaji":44000,"bersih":288000,"berat":11.0,"transaksi":1},{"date":"2026-07-24","month":"2026-07","kotor":96400,"operasional":10800,"gaji":12600,"bersih":73000,"berat":4.5,"transaksi":2},{"date":"2026-07-25","month":"2026-07","kotor":467500,"operasional":55500,"gaji":74000,"bersih":338000,"berat":18.5,"transaksi":5},{"date":"2026-07-26","month":"2026-07","kotor":184500,"operasional":27300,"gaji":36400,"bersih":120800,"berat":9.1,"transaksi":2},{"date":"2026-07-27","month":"2026-07","kotor":495000,"operasional":45000,"gaji":52000,"bersih":398000,"berat":19.0,"transaksi":2},{"date":"2026-07-28","month":"2026-07","kotor":30000,"operasional":0,"gaji":0,"bersih":30000,"berat":0.0,"transaksi":1},{"date":"2026-07-29","month":"2026-07","kotor":279500,"operasional":18300,"gaji":24400,"bersih":236800,"berat":6.1,"transaksi":2},{"date":"2026-07-30","month":"2026-07","kotor":274000,"operasional":30200,"gaji":38400,"bersih":205400,"berat":11.0,"transaksi":4},{"date":"2026-07-31","month":"2026-07","kotor":58000,"operasional":17400,"gaji":23200,"bersih":17400,"berat":5.8,"transaksi":2},{"date":"2026-08-01","month":"2026-08","kotor":217500,"operasional":18900,"gaji":25200,"bersih":173400,"berat":6.3,"transaksi":3},{"date":"2026-08-02","month":"2026-08","kotor":152500,"operasional":15900,"gaji":21200,"bersih":115400,"berat":5.3,"transaksi":2},{"date":"2026-08-03","month":"2026-08","kotor":105000,"operasional":12600,"gaji":16800,"bersih":75600,"berat":4.2,"transaksi":1},{"date":"2026-08-04","month":"2026-08","kotor":155000,"operasional":27000,"gaji":36000,"bersih":92000,"berat":9.0,"transaksi":2},{"date":"2026-08-05","month":"2026-08","kotor":372500,"operasional":17100,"gaji":22800,"bersih":332600,"berat":5.7,"transaksi":2},{"date":"2026-08-06","month":"2026-08","kotor":756500,"operasional":105900,"gaji":141200,"bersih":509400,"berat":35.3,"transaksi":4},{"date":"2026-08-07","month":"2026-08","kotor":333500,"operasional":32500,"gaji":40200,"bersih":260800,"berat":12.4,"transaksi":3},{"date":"2026-08-08","month":"2026-08","kotor":729800,"operasional":73200,"gaji":97600,"bersih":559000,"berat":24.4,"transaksi":5},{"date":"2026-08-09","month":"2026-08","kotor":734000,"operasional":110400,"gaji":147200,"bersih":476400,"berat":36.8,"transaksi":8},{"date":"2026-08-10","month":"2026-08","kotor":547500,"operasional":63600,"gaji":83000,"bersih":400900,"berat":22.1,"transaksi":6},{"date":"2026-08-11","month":"2026-08","kotor":269500,"operasional":47700,"gaji":62200,"bersih":159600,"berat":16.6,"transaksi":3},{"date":"2026-08-12","month":"2026-08","kotor":574500,"operasional":98800,"gaji":125000,"bersih":350700,"berat":36.3,"transaksi":5},{"date":"2026-08-13","month":"2026-08","kotor":184500,"operasional":21900,"gaji":29200,"bersih":133400,"berat":7.3,"transaksi":4},{"date":"2026-08-14","month":"2026-08","kotor":632500,"operasional":71400,"gaji":95200,"bersih":465900,"berat":23.8,"transaksi":7},{"date":"2026-08-15","month":"2026-08","kotor":1171000,"operasional":154900,"gaji":192200,"bersih":823900,"berat":58.8,"transaksi":12},{"date":"2026-08-16","month":"2026-08","kotor":720500,"operasional":103000,"gaji":132800,"bersih":484700,"berat":36.6,"transaksi":7},{"date":"2026-08-17","month":"2026-08","kotor":316000,"operasional":48900,"gaji":65200,"bersih":201900,"berat":16.3,"transaksi":4},{"date":"2026-08-18","month":"2026-08","kotor":598500,"operasional":92600,"gaji":121200,"bersih":384700,"berat":32.0,"transaksi":7},{"date":"2026-08-19","month":"2026-08","kotor":898500,"operasional":142800,"gaji":190400,"bersih":565300,"berat":47.6,"transaksi":8},{"date":"2026-08-20","month":"2026-08","kotor":273000,"operasional":41000,"gaji":50600,"bersih":181400,"berat":15.7,"transaksi":3},{"date":"2026-08-21","month":"2026-08","kotor":809500,"operasional":113400,"gaji":151200,"bersih":544900,"berat":37.8,"transaksi":7},{"date":"2026-08-22","month":"2026-08","kotor":466000,"operasional":33900,"gaji":45200,"bersih":386900,"berat":11.3,"transaksi":4},{"date":"2026-08-23","month":"2026-08","kotor":1766000,"operasional":258200,"gaji":329600,"bersih":1178200,"berat":93.4,"transaksi":13},{"date":"2026-08-24","month":"2026-08","kotor":1361500,"operasional":181900,"gaji":234400,"bersih":945200,"berat":64.7,"transaksi":21},{"date":"2026-08-26","month":"2026-08","kotor":184000,"operasional":10400,"gaji":11400,"bersih":162200,"berat":4.7,"transaksi":3},{"date":"2026-08-27","month":"2026-08","kotor":378500,"operasional":65700,"gaji":87600,"bersih":225200,"berat":21.9,"transaksi":3},{"date":"2026-08-28","month":"2026-08","kotor":356500,"operasional":49600,"gaji":53000,"bersih":253900,"berat":23.1,"transaksi":2},{"date":"2026-08-30","month":"2026-08","kotor":339000,"operasional":35100,"gaji":46800,"bersih":257100,"berat":11.7,"transaksi":4},{"date":"2026-08-31","month":"2026-08","kotor":264000,"operasional":31800,"gaji":42400,"bersih":189800,"berat":10.6,"transaksi":2},{"date":"2026-09-01","month":"2026-09","kotor":269800,"operasional":41100,"gaji":54800,"bersih":173900,"berat":13.7,"transaksi":2},{"date":"2026-09-03","month":"2026-09","kotor":105000,"operasional":21000,"gaji":28000,"bersih":56000,"berat":7.0,"transaksi":1},{"date":"2026-09-04","month":"2026-09","kotor":409000,"operasional":42500,"gaji":51000,"bersih":315500,"berat":17.0,"transaksi":3},{"date":"2026-09-05","month":"2026-09","kotor":212500,"operasional":27100,"gaji":35000,"bersih":150400,"berat":9.6,"transaksi":4},{"date":"2026-09-06","month":"2026-09","kotor":55000,"operasional":9000,"gaji":12000,"bersih":34000,"berat":3.0,"transaksi":1},{"date":"2026-09-07","month":"2026-09","kotor":260500,"operasional":36400,"gaji":41400,"bersih":182700,"berat":15.7,"transaksi":3},{"date":"2026-09-09","month":"2026-09","kotor":2548500,"operasional":76500,"gaji":102000,"bersih":2370000,"berat":25.5,"transaksi":6},{"date":"2026-09-11","month":"2026-09","kotor":275000,"operasional":39000,"gaji":52000,"bersih":184000,"berat":13.0,"transaksi":3},{"date":"2026-09-12","month":"2026-09","kotor":228500,"operasional":27800,"gaji":32800,"bersih":167900,"berat":11.4,"transaksi":2},{"date":"2026-09-13","month":"2026-09","kotor":385500,"operasional":47400,"gaji":63200,"bersih":274900,"berat":15.8,"transaksi":6},{"date":"2026-09-14","month":"2026-09","kotor":513000,"operasional":54500,"gaji":65800,"bersih":392700,"berat":21.6,"transaksi":6},{"date":"2026-09-15","month":"2026-09","kotor":194000,"operasional":29300,"gaji":37400,"bersih":127300,"berat":10.6,"transaksi":3},{"date":"2026-09-16","month":"2026-09","kotor":255500,"operasional":44700,"gaji":59600,"bersih":151200,"berat":14.9,"transaksi":3},{"date":"2026-09-17","month":"2026-09","kotor":308500,"operasional":40500,"gaji":54000,"bersih":214000,"berat":13.5,"transaksi":3},{"date":"2026-09-18","month":"2026-09","kotor":287500,"operasional":55500,"gaji":74000,"bersih":158000,"berat":18.5,"transaksi":3},{"date":"2026-09-19","month":"2026-09","kotor":85000,"operasional":0,"gaji":0,"bersih":85000,"berat":0.0,"transaksi":1},{"date":"2026-09-20","month":"2026-09","kotor":428500,"operasional":63200,"gaji":79200,"bersih":286100,"berat":23.6,"transaksi":4},{"date":"2026-09-21","month":"2026-09","kotor":149000,"operasional":17400,"gaji":23200,"bersih":108400,"berat":5.8,"transaksi":2},{"date":"2026-09-22","month":"2026-09","kotor":138000,"operasional":27600,"gaji":36800,"bersih":73600,"berat":9.2,"transaksi":2},{"date":"2026-09-23","month":"2026-09","kotor":373500,"operasional":74700,"gaji":99600,"bersih":199200,"berat":24.9,"transaksi":3},{"date":"2026-09-24","month":"2026-09","kotor":232000,"operasional":25700,"gaji":29200,"bersih":177100,"berat":11.1,"transaksi":2},{"date":"2026-09-25","month":"2026-09","kotor":187000,"operasional":15000,"gaji":20000,"bersih":152000,"berat":5.0,"transaksi":2},{"date":"2026-09-26","month":"2026-09","kotor":169500,"operasional":21900,"gaji":29200,"bersih":118400,"berat":7.3,"transaksi":2},{"date":"2026-09-27","month":"2026-09","kotor":640400,"operasional":81600,"gaji":105000,"bersih":453800,"berat":29.1,"transaksi":6},{"date":"2026-09-28","month":"2026-09","kotor":705000,"operasional":86400,"gaji":115200,"bersih":503400,"berat":28.8,"transaksi":5},{"date":"2026-09-29","month":"2026-09","kotor":723500,"operasional":114300,"gaji":134200,"bersih":475000,"berat":47.2,"transaksi":7},{"date":"2026-09-30","month":"2026-09","kotor":494000,"operasional":45600,"gaji":60800,"bersih":387600,"berat":15.2,"transaksi":4},{"date":"2026-10-01","month":"2026-10","kotor":120000,"operasional":24000,"gaji":24000,"bersih":72000,"berat":12.0,"transaksi":1},{"date":"2026-10-02","month":"2026-10","kotor":438500,"operasional":43700,"gaji":56800,"bersih":338000,"berat":15.3,"transaksi":5},{"date":"2026-10-03","month":"2026-10","kotor":138500,"operasional":20700,"gaji":27600,"bersih":90200,"berat":6.9,"transaksi":2},{"date":"2026-10-04","month":"2026-10","kotor":499000,"operasional":47100,"gaji":62800,"bersih":389100,"berat":15.7,"transaksi":5},{"date":"2026-10-07","month":"2026-10","kotor":148700,"operasional":9900,"gaji":13200,"bersih":125600,"berat":3.3,"transaksi":1},{"date":"2026-10-08","month":"2026-10","kotor":651000,"operasional":95700,"gaji":127600,"bersih":427700,"berat":31.9,"transaksi":6},{"date":"2026-10-09","month":"2026-10","kotor":521000,"operasional":63000,"gaji":74800,"bersih":383200,"berat":25.6,"transaksi":6},{"date":"2026-10-10","month":"2026-10","kotor":253500,"operasional":20700,"gaji":27600,"bersih":205200,"berat":6.9,"transaksi":1},{"date":"2026-10-11","month":"2026-10","kotor":187000,"operasional":35400,"gaji":47200,"bersih":104400,"berat":11.8,"transaksi":2},{"date":"2026-10-12","month":"2026-10","kotor":277000,"operasional":20900,"gaji":24400,"bersih":231700,"berat":8.7,"transaksi":3},{"date":"2026-10-13","month":"2026-10","kotor":42000,"operasional":3200,"gaji":3200,"bersih":35600,"berat":1.6,"transaksi":1},{"date":"2026-10-14","month":"2026-10","kotor":57000,"operasional":0,"gaji":0,"bersih":57000,"berat":0.0,"transaksi":1},{"date":"2026-10-15","month":"2026-10","kotor":452500,"operasional":30600,"gaji":40800,"bersih":381100,"berat":10.2,"transaksi":4},{"date":"2026-10-16","month":"2026-10","kotor":695900,"operasional":87800,"gaji":115600,"bersih":492500,"berat":30.0,"transaksi":7},{"date":"2026-10-17","month":"2026-10","kotor":380500,"operasional":54900,"gaji":70200,"bersih":255400,"berat":19.8,"transaksi":4},{"date":"2026-10-18","month":"2026-10","kotor":287000,"operasional":18300,"gaji":24400,"bersih":244300,"berat":6.1,"transaksi":3},{"date":"2026-10-22","month":"2026-10","kotor":226500,"operasional":35100,"gaji":46800,"bersih":144600,"berat":11.7,"transaksi":4},{"date":"2026-10-23","month":"2026-10","kotor":464500,"operasional":42400,"gaji":52200,"bersih":369900,"berat":16.3,"transaksi":4},{"date":"2026-10-24","month":"2026-10","kotor":198000,"operasional":19800,"gaji":26400,"bersih":151800,"berat":6.6,"transaksi":2},{"date":"2026-10-25","month":"2026-10","kotor":136000,"operasional":15000,"gaji":20000,"bersih":101000,"berat":5.0,"transaksi":2},{"date":"2026-10-26","month":"2026-10","kotor":100000,"operasional":20000,"gaji":20000,"bersih":60000,"berat":10.0,"transaksi":1},{"date":"2026-10-28","month":"2026-10","kotor":46000,"operasional":5400,"gaji":7200,"bersih":33400,"berat":1.8,"transaksi":1},{"date":"2026-10-29","month":"2026-10","kotor":886500,"operasional":63300,"gaji":81000,"bersih":742200,"berat":22.8,"transaksi":10},{"date":"2026-10-30","month":"2026-10","kotor":1522000,"operasional":105600,"gaji":140800,"bersih":1275600,"berat":35.2,"transaksi":14},{"date":"2026-10-31","month":"2026-10","kotor":613000,"operasional":81500,"gaji":99600,"bersih":431900,"berat":31.7,"transaksi":8},{"date":"2026-11-01","month":"2026-11","kotor":90000,"operasional":9600,"gaji":12800,"bersih":67600,"berat":3.2,"transaksi":1},{"date":"2026-11-02","month":"2026-11","kotor":349500,"operasional":39600,"gaji":52800,"bersih":257100,"berat":13.2,"transaksi":4},{"date":"2026-11-03","month":"2026-11","kotor":127000,"operasional":22900,"gaji":25400,"bersih":78700,"berat":10.2,"transaksi":2},{"date":"2026-11-05","month":"2026-11","kotor":1308500,"operasional":179500,"gaji":237200,"bersih":891800,"berat":60.9,"transaksi":4},{"date":"2026-11-06","month":"2026-11","kotor":102500,"operasional":11100,"gaji":14800,"bersih":76600,"berat":3.7,"transaksi":1},{"date":"2026-11-08","month":"2026-11","kotor":389000,"operasional":39700,"gaji":45000,"bersih":304300,"berat":17.2,"transaksi":4},{"date":"2026-11-09","month":"2026-11","kotor":478500,"operasional":102600,"gaji":136800,"bersih":239100,"berat":34.2,"transaksi":2},{"date":"2026-11-10","month":"2026-11","kotor":202000,"operasional":22800,"gaji":30400,"bersih":148800,"berat":7.6,"transaksi":2},{"date":"2026-11-11","month":"2026-11","kotor":191000,"operasional":5600,"gaji":5600,"bersih":179800,"berat":2.8,"transaksi":2},{"date":"2026-11-12","month":"2026-11","kotor":393000,"operasional":28500,"gaji":38000,"bersih":326500,"berat":9.5,"transaksi":4},{"date":"2026-11-13","month":"2026-11","kotor":97000,"operasional":13000,"gaji":13000,"bersih":71000,"berat":6.5,"transaksi":2},{"date":"2026-11-14","month":"2026-11","kotor":389500,"operasional":37200,"gaji":44800,"bersih":307500,"berat":14.8,"transaksi":4},{"date":"2026-11-15","month":"2026-11","kotor":537000,"operasional":50600,"gaji":61200,"bersih":425200,"berat":20.0,"transaksi":5},{"date":"2026-11-16","month":"2026-11","kotor":659500,"operasional":90700,"gaji":115800,"bersih":453000,"berat":32.8,"transaksi":8},{"date":"2026-11-17","month":"2026-11","kotor":1027000,"operasional":92200,"gaji":110600,"bersih":824200,"berat":36.9,"transaksi":8}];
+
+    let allRecords = [...INITIAL_DATA];
+    let currentMetric = "pendapatan";
+    let chartInstance = null;
+
+    const MONTH_NAMES = {
+      "01": "Januari", "02": "Februari", "03": "Maret", "04": "April",
+      "05": "Mei", "06": "Juni", "07": "Juli", "08": "Agustus",
+      "09": "September", "10": "Oktober", "11": "November", "12": "Desember"
+    };
+
+    const SHORT_MONTHS = {
+      "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr",
+      "05": "Mei", "06": "Jun", "07": "Jul", "08": "Agu",
+      "09": "Sep", "10": "Okt", "11": "Nov", "12": "Des"
+    };
+
+    function formatRupiah(num) {
+      return "Rp " + Math.round(num).toLocaleString("id-ID");
+    }
+
+    function formatDateShort(isoDate) {
+      const [y, m, d] = isoDate.split("-");
+      return `${parseInt(d, 10)} ${SHORT_MONTHS[m] || m}`;
+    }
+
+    function formatDateFull(isoDate) {
+      const [y, m, d] = isoDate.split("-");
+      return `${parseInt(d, 10)} ${MONTH_NAMES[m] || m} ${y}`;
+    }
+
+    function formatMonthLabel(ym) {
+      const [y, m] = ym.split("-");
+      return `${MONTH_NAMES[m] || m} ${y}`;
+    }
+
+    function populateMonthDropdown() {
+      const select = document.getElementById("monthFilter");
+      const prevVal = select.value;
+      const months = [...new Set(allRecords.map(r => r.month))].sort();
+
+      select.innerHTML = `<option value="all">Semua Bulan (${allRecords.length} Hari)</option>`;
+      months.forEach(ym => {
+        const count = allRecords.filter(r => r.month === ym).length;
+        const opt = document.createElement("option");
+        opt.value = ym;
+        opt.textContent = `${formatMonthLabel(ym)} (${count} Hari)`;
+        select.appendChild(opt);
+      });
+
+      if ([...select.options].some(o => o.value === prevVal)) {
+        select.value = prevVal;
+      }
+    }
+
+    function setMetric(metric) {
+      currentMetric = metric;
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.metric === metric);
+      });
+      updateDashboard();
+    }
+
+    function updateDashboard() {
+      const selectedMonth = document.getElementById("monthFilter").value;
+      const filtered = selectedMonth === "all"
+        ? allRecords
+        : allRecords.filter(r => r.month === selectedMonth);
+
+      if (filtered.length === 0) return;
+
+      document.getElementById("periodRange").textContent =
+        `${formatDateShort(filtered[0].date)} – ${formatDateFull(filtered[filtered.length - 1].date)}`;
+
+      const totalKotor = filtered.reduce((s, r) => s + r.kotor, 0);
+      const totalBersih = filtered.reduce((s, r) => s + r.bersih, 0);
+      const totalOps = filtered.reduce((s, r) => s + r.operasional, 0);
+      const totalGaji = filtered.reduce((s, r) => s + r.gaji, 0);
+      const totalBerat = filtered.reduce((s, r) => s + r.berat, 0);
+      const totalTrans = filtered.reduce((s, r) => s + r.transaksi, 0);
+      const days = filtered.length;
+
+      if (currentMetric === "pendapatan") {
+        const margin = totalKotor > 0 ? ((totalBersih / totalKotor) * 100).toFixed(1) : "0.0";
+        const peak = filtered.reduce((max, r) => r.kotor > max.kotor ? r : max, filtered[0]);
+
+        document.getElementById("kpi1Label").textContent = "Total Pendapatan Kotor";
+        document.getElementById("kpi1Value").textContent = formatRupiah(totalKotor);
+        document.getElementById("kpi1Sub").textContent = `${days} hari aktif · ${totalTrans.toLocaleString("id-ID")} nota`;
+
+        document.getElementById("kpi2Label").textContent = "Total Pendapatan Bersih";
+        document.getElementById("kpi2Value").textContent = formatRupiah(totalBersih);
+        document.getElementById("kpi2Value").style.color = "var(--emerald)";
+        document.getElementById("kpi2Sub").textContent = `Margin ${margin}% (Ops + Gaji: ${formatRupiah(totalOps + totalGaji)})`;
+
+        document.getElementById("kpi3Label").textContent = "Rata-rata Kotor / Hari";
+        document.getElementById("kpi3Value").textContent = formatRupiah(totalKotor / days);
+        document.getElementById("kpi3Sub").textContent = `Bersih: ${formatRupiah(totalBersih / days)} / hari`;
+
+        document.getElementById("kpi4Label").textContent = "Omzet Harian Tertinggi";
+        document.getElementById("kpi4Value").textContent = formatRupiah(peak.kotor);
+        document.getElementById("kpi4Sub").textContent = `${formatDateFull(peak.date)} (Bersih: ${formatRupiah(peak.bersih)})`;
+      } else if (currentMetric === "berat") {
+        const peak = filtered.reduce((max, r) => r.berat > max.berat ? r : max, filtered[0]);
+
+        document.getElementById("kpi1Label").textContent = "Total Berat Kiloan";
+        document.getElementById("kpi1Value").textContent = `${totalBerat.toLocaleString("id-ID", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Kg`;
+        document.getElementById("kpi1Sub").textContent = `Selama ${days} hari aktif`;
+
+        document.getElementById("kpi2Label").textContent = "Rata-rata Berat / Hari";
+        document.getElementById("kpi2Value").textContent = `${(totalBerat / days).toLocaleString("id-ID", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Kg`;
+        document.getElementById("kpi2Value").style.color = "var(--primary)";
+        document.getElementById("kpi2Sub").textContent = `Rata-rata ${(totalBerat / Math.max(totalTrans, 1)).toFixed(1)} Kg / nota`;
+
+        document.getElementById("kpi3Label").textContent = "Total Pendapatan Kotor";
+        document.getElementById("kpi3Value").textContent = formatRupiah(totalKotor);
+        document.getElementById("kpi3Sub").textContent = `Termasuk layanan satuan & ongkir`;
+
+        document.getElementById("kpi4Label").textContent = "Berat Harian Tertinggi";
+        document.getElementById("kpi4Value").textContent = `${peak.berat.toLocaleString("id-ID", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Kg`;
+        document.getElementById("kpi4Sub").textContent = `${formatDateFull(peak.date)} (${peak.transaksi} nota)`;
+      } else {
+        const peak = filtered.reduce((max, r) => r.transaksi > max.transaksi ? r : max, filtered[0]);
+
+        document.getElementById("kpi1Label").textContent = "Total Nota Transaksi";
+        document.getElementById("kpi1Value").textContent = `${totalTrans.toLocaleString("id-ID")} Nota`;
+        document.getElementById("kpi1Sub").textContent = `Selama ${days} hari aktif`;
+
+        document.getElementById("kpi2Label").textContent = "Rata-rata Nota / Hari";
+        document.getElementById("kpi2Value").textContent = `${(totalTrans / days).toFixed(1)} Nota`;
+        document.getElementById("kpi2Value").style.color = "var(--primary)";
+        document.getElementById("kpi2Sub").textContent = `Nilai rata-rata ${formatRupiah(totalKotor / Math.max(totalTrans, 1))} / nota`;
+
+        document.getElementById("kpi3Label").textContent = "Total Pendapatan Kotor";
+        document.getElementById("kpi3Value").textContent = formatRupiah(totalKotor);
+        document.getElementById("kpi3Sub").textContent = `Bersih: ${formatRupiah(totalBersih)}`;
+
+        document.getElementById("kpi4Label").textContent = "Transaksi Harian Terbanyak";
+        document.getElementById("kpi4Value").textContent = `${peak.transaksi} Nota`;
+        document.getElementById("kpi4Sub").textContent = `${formatDateFull(peak.date)} (${formatRupiah(peak.kotor)})`;
+      }
+
+      renderChart(filtered);
+    }
+
+    function renderChart(data) {
+      const ctx = document.getElementById("dailyChart").getContext("2d");
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      const labels = data.map(r => formatDateShort(r.date));
+      let datasets = [];
+      let yTickFormatter = (v) => v;
+
+      if (currentMetric === "pendapatan") {
+        datasets = [
+          {
+            type: "line",
+            label: "Pendapatan Bersih",
+            data: data.map(r => r.bersih),
+            borderColor: "#059669",
+            backgroundColor: "rgba(5, 150, 105, 0.12)",
+            borderWidth: 2.2,
+            pointRadius: data.length > 45 ? 1.5 : 3.5,
+            pointHoverRadius: 5,
+            tension: 0.25,
+            order: 1
+          },
+          {
+            type: "bar",
+            label: "Pendapatan Kotor",
+            data: data.map(r => r.kotor),
+            backgroundColor: "rgba(37, 99, 235, 0.72)",
+            hoverBackgroundColor: "rgba(37, 99, 235, 0.92)",
+            borderRadius: 4,
+            order: 2
+          }
+        ];
+        yTickFormatter = (val) => {
+          if (val >= 1000000) return "Rp " + (val / 1000000).toFixed(1).replace(".0", "") + " jt";
+          if (val >= 1000) return "Rp " + (val / 1000).toFixed(0) + " rb";
+          return "Rp " + val;
+        };
+      } else if (currentMetric === "berat") {
+        datasets = [
+          {
+            type: "bar",
+            label: "Berat Cucian (Kg)",
+            data: data.map(r => r.berat),
+            backgroundColor: "rgba(14, 165, 233, 0.78)",
+            hoverBackgroundColor: "rgba(2, 132, 199, 0.95)",
+            borderRadius: 4
+          }
+        ];
+        yTickFormatter = (val) => val + " Kg";
+      } else {
+        datasets = [
+          {
+            type: "bar",
+            label: "Jumlah Nota",
+            data: data.map(r => r.transaksi),
+            backgroundColor: "rgba(99, 102, 241, 0.78)",
+            hoverBackgroundColor: "rgba(79, 70, 229, 0.95)",
+            borderRadius: 4
+          }
+        ];
+        yTickFormatter = (val) => val + " nota";
+      }
+
+      chartInstance = new Chart(ctx, {
+        data: {
+          labels,
+          datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          interaction: {
+            mode: "index",
+            intersect: false
+          },
+          plugins: {
+            legend: {
+              position: "top",
+              align: "end",
+              labels: {
+                usePointStyle: true,
+                boxWidth: 8,
+                font: { size: 12, weight: "600" }
+              }
+            },
+            tooltip: {
+              backgroundColor: "#0f172a",
+              padding: 12,
+              titleFont: { size: 13, weight: "700" },
+              bodyFont: { size: 12 },
+              callbacks: {
+                title: (items) => {
+                  const idx = items[0].dataIndex;
+                  return formatDateFull(data[idx].date);
+                },
+                label: (context) => {
+                  if (currentMetric === "pendapatan") {
+                    return ` ${context.dataset.label}: ${formatRupiah(context.raw)}`;
+                  } else if (currentMetric === "berat") {
+                    return ` Berat Cucian: ${context.raw.toLocaleString("id-ID")} Kg`;
+                  } else {
+                    return ` Jumlah Transaksi: ${context.raw} nota`;
+                  }
+                },
+                afterBody: (items) => {
+                  const r = data[items[0].dataIndex];
+                  return [
+                    "────────────────────",
+                    ` Operasional: ${formatRupiah(r.operasional)}`,
+                    ` Gaji: ${formatRupiah(r.gaji)}`,
+                    ` Bersih: ${formatRupiah(r.bersih)}`,
+                    ` Berat: ${r.berat.toLocaleString("id-ID")} Kg · ${r.transaksi} nota`
+                  ];
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: {
+                maxRotation: 0,
+                autoSkip: true,
+                maxTicksLimit: data.length > 40 ? 14 : 31,
+                font: { size: 11 },
+                color: "#64748b"
+              }
+            },
+            y: {
+              beginAtZero: true,
+              border: { display: false },
+              grid: { color: "#f1f5f9" },
+              ticks: {
+                font: { size: 11 },
+                color: "#64748b",
+                callback: yTickFormatter
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function toggleSyncPanel() {
+      document.getElementById("syncPanel").classList.toggle("open");
+    }
+
+    function parseCleanNumber(val) {
+      if (val === null || val === undefined) return 0;
+      let s = String(val).trim().replace(/^Rp\s*/i, "");
+      if (!s) return 0;
+      if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) {
+        s = s.replace(/\./g, "").replace(",", ".");
+      } else if (s.includes(",") && !s.includes(".")) {
+        s = s.replace(",", ".");
+      } else {
+        s = s.replace(/,/g, "");
+      }
+      const num = parseFloat(s);
+      return isNaN(num) ? 0 : num;
+    }
+
+    function parseFlexibleDate(val) {
+      if (!val) return null;
+      const s = String(val).trim().split(" ")[0];
+      let m = s.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+      if (m) {
+        return `${m[1]}-${m[2].padStart(2, "0")}-${m[3].padStart(2, "0")}`;
+      }
+      m = s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
+      if (m) {
+        return `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`;
+      }
+      return null;
+    }
+
+    function parseCSVLines(text) {
+      const rows = [];
+      let row = [];
+      let cell = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const next = text[i + 1];
+        if (ch === '"' && inQuotes && next === '"') {
+          cell += '"';
+          i++;
+        } else if (ch === '"') {
+          inQuotes = !inQuotes;
+        } else if (ch === "," && !inQuotes) {
+          row.push(cell);
+          cell = "";
+        } else if ((ch === "\n" || (ch === "\r" && next === "\n")) && !inQuotes) {
+          if (ch === "\r") i++;
+          row.push(cell);
+          rows.push(row);
+          row = [];
+          cell = "";
+        } else {
+          cell += ch;
+        }
+      }
+      if (cell.length > 0 || row.length > 0) {
+        row.push(cell);
+        rows.push(row);
+      }
+      return rows;
+    }
+
+    function parseSheetCSV(csvText) {
+      const rows = parseCSVLines(csvText).filter(r => r.some(c => c.trim() !== ""));
+      if (rows.length < 2) throw new Error("File CSV kosong atau tidak valid.");
+
+      const headers = rows[0].map(h => h.trim().toLowerCase());
+      const idxTanggal = headers.findIndex(h => h === "tanggal");
+      const idxKotor = headers.findIndex(h => h.includes("pendapatan kotor"));
+      const idxTotal = headers.findIndex(h => h === "total");
+
+      if (idxTanggal !== -1 && idxKotor !== -1) {
+        const idxBerat = headers.findIndex(h => h.includes("berat"));
+        const idxOps = headers.findIndex(h => h.includes("operasional"));
+        const idxGaji = headers.findIndex(h => h.includes("gaji"));
+        const idxBersih = headers.findIndex(h => h.includes("pendapatan bersih"));
+
+        const map = new Map();
+        for (let i = 1; i < rows.length; i++) {
+          const r = rows[i];
+          const iso = parseFlexibleDate(r[idxTanggal]);
+          if (!iso) continue;
+
+          const kotor = Math.round(parseCleanNumber(r[idxKotor]));
+          const ops = idxOps !== -1 ? Math.round(parseCleanNumber(r[idxOps])) : 0;
+          const gaji = idxGaji !== -1 ? Math.round(parseCleanNumber(r[idxGaji])) : 0;
+          const bersih = idxBersih !== -1 ? Math.round(parseCleanNumber(r[idxBersih])) : (kotor - ops - gaji);
+          const berat = idxBerat !== -1 ? parseCleanNumber(r[idxBerat]) : 0;
+
+          map.set(iso, {
+            date: iso,
+            month: iso.slice(0, 7),
+            kotor,
+            operasional: ops,
+            gaji,
+            bersih,
+            berat: Math.round(berat * 100) / 100,
+            transaksi: 1
+          });
+        }
+        return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
+      }
+
+      if (idxTanggal !== -1 && idxTotal !== -1) {
+        const idxBerat = headers.findIndex(h => h.includes("berat"));
+        const idxLayanan = headers.findIndex(h => h.includes("layanan"));
+        const map = new Map();
+
+        for (let i = 1; i < rows.length; i++) {
+          const r = rows[i];
+          const iso = parseFlexibleDate(r[idxTanggal]);
+          if (!iso) continue;
+
+          const total = Math.round(parseCleanNumber(r[idxTotal]));
+          const berat = idxBerat !== -1 ? parseCleanNumber(r[idxBerat]) : 0;
+          const layanan = idxLayanan !== -1 ? (r[idxLayanan] || "").toLowerCase() : "";
+
+          const isCuci = layanan.includes("cuci");
+          const isSetrika = layanan.includes("setrika");
+          let ops = 0, gaji = 0;
+          if (isCuci && !isSetrika) {
+            ops = Math.round(berat * 2000);
+            gaji = Math.round(berat * 2000);
+          } else if (isCuci && isSetrika) {
+            ops = Math.round(berat * 3000);
+            gaji = Math.round(berat * 4000);
+          }
+
+          if (!map.has(iso)) {
+            map.set(iso, {
+              date: iso,
+              month: iso.slice(0, 7),
+              kotor: 0, operasional: 0, gaji: 0, bersih: 0, berat: 0, transaksi: 0
+            });
+          }
+          const agg = map.get(iso);
+          agg.kotor += total;
+          agg.operasional += ops;
+          agg.gaji += gaji;
+          agg.bersih += (total - ops - gaji);
+          agg.berat = Math.round((agg.berat + berat) * 100) / 100;
+          agg.transaksi += 1;
+        }
+        return [...map.values()].sort((a, b) => a.date.localeCompare(b.date));
+      }
+
+      throw new Error("Kolom 'Tanggal' dan 'Pendapatan Kotor' (atau 'Total') tidak ditemukan di CSV.");
+    }
+
+    async function fetchSheetData(url) {
+      const badge = document.getElementById("statusBadge");
+      const statusText = document.getElementById("statusText");
+      const msg = document.getElementById("syncMessage");
+
+      badge.className = "status-badge offline";
+      statusText.textContent = "Menyinkronkan Google Sheets...";
+
+      try {
+        const cacheBuster = (url.includes("?") ? "&" : "?") + "_t=" + Date.now();
+        const res = await fetch(url + cacheBuster);
+        if (!res.ok) throw new Error("Gagal mengambil data (HTTP " + res.status + ")");
+        const csvText = await res.text();
+        const parsed = parseSheetCSV(csvText);
+
+        if (parsed.length === 0) throw new Error("Tidak ada baris tanggal valid yang terbaca.");
+
+        allRecords = parsed;
+        badge.className = "status-badge";
+        statusText.textContent = `Live Google Sheets (${allRecords.length} Hari)`;
+        document.getElementById("refreshBtn").style.display = "inline-flex";
+        document.getElementById("lastUpdatedNote").textContent =
+          "Tersinkronisasi: " + new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) + " WIB";
+
+        if (msg) {
+          msg.style.color = "var(--emerald)";
+          msg.textContent = `Berhasil memuat ${allRecords.length} hari data dari Google Sheets!`;
+        }
+
+        populateMonthDropdown();
+        updateDashboard();
+      } catch (err) {
+        badge.className = "status-badge offline";
+        statusText.textContent = `Data Bawaan (${allRecords.length} Hari)`;
+        if (msg) {
+          msg.style.color = "#dc2626";
+          msg.textContent = "Gagal sinkronisasi: " + err.message;
+        }
+      }
+    }
+
+    function saveSheetUrl() {
+      const input = document.getElementById("sheetUrlInput").value.trim();
+      if (!input) return;
+      localStorage.setItem(STORAGE_KEY, input);
+      fetchSheetData(input);
+    }
+
+    function syncNow() {
+      const url = localStorage.getItem(STORAGE_KEY) || DEFAULT_GOOGLE_SHEET_CSV_URL;
+      if (url) fetchSheetData(url);
+    }
+
+    function resetToDefault() {
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById("sheetUrlInput").value = "";
+      document.getElementById("refreshBtn").style.display = "none";
+      document.getElementById("syncMessage").textContent = "Kembali menggunakan data bawaan.";
+      document.getElementById("syncMessage").style.color = "var(--text-muted)";
+      allRecords = [...INITIAL_DATA];
+      const badge = document.getElementById("statusBadge");
+      badge.className = "status-badge offline";
+      document.getElementById("statusText").textContent = `Data Bawaan (${allRecords.length} Hari)`;
+      populateMonthDropdown();
+      updateDashboard();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      populateMonthDropdown();
+      updateDashboard();
+
+      const activeUrl = localStorage.getItem(STORAGE_KEY) || DEFAULT_GOOGLE_SHEET_CSV_URL;
+      if (activeUrl) {
+        document.getElementById("sheetUrlInput").value = activeUrl;
+        fetchSheetData(activeUrl);
+      }
+    });
+  </script>
+</body>
+</html>
