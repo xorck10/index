@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Jika Anda memiliki halaman laporan atau nota internal yang tidak ingin diindeks Google,
+# hapus tanda pagar (#) di bawah ini dan sesuaikan nama filenya:
+Disallow: /laporan.html
+# Disallow: /nota.html
+
+Sitemap: https://laundrybatu.com/sitemap.xml
